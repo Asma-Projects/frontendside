@@ -1,5 +1,5 @@
 import React from "react";
-
+import './App.css';
 const body={
   marginTop:'5em',
   backgroundImage: 'url("https://i.pinimg.com/564x/e9/d9/6f/e9d96fe75300aa522e6edf47438f76fe.jpg")',
@@ -52,8 +52,17 @@ class AccueilPage extends React.Component {
       success => console.log(success) // Handle the success response object
     ).catch(
       error => null // Handle the error response object
-    ); }
+    ) }
+    onShow(e){
 
+      var fileDownload = require('js-file-download');
+
+      console.log(document.getElementById('pdf').files[0].name)
+      const data = document.getElementById('pdf').files[0]
+
+   fileDownload(data, document.getElementById('pdf').files[0].name);
+
+  }    
   render() {
     return ( <div style={body} >
     <br/>
@@ -65,10 +74,14 @@ class AccueilPage extends React.Component {
       <br/>
       <br/>
           <form encType="multipart/form-data" >
-          <input  id="pdf" type="file" onChange={this.handleUpload}   />
+          <input  id="pdf" type="file" onChange={this.handleUpload}  accept="application/pdf" />
           <br/>
           <br/>
+         
             </form>
+            <br/>
+            
+            <button className="But" onClick={this.onShow}><span > Visualiser PDF </span></button>
             <br/>
             <br/>
             <br/>
