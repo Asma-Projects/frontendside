@@ -1,5 +1,6 @@
 import React from "react";
 import './App.css';
+
 const body={
   marginTop:'5em',
   backgroundImage: 'url("https://i.pinimg.com/564x/e9/d9/6f/e9d96fe75300aa522e6edf47438f76fe.jpg")',
@@ -57,12 +58,35 @@ class AccueilPage extends React.Component {
 
       var fileDownload = require('js-file-download');
 
-      console.log(document.getElementById('pdf').files[0].name)
+     
       const data = document.getElementById('pdf').files[0]
-
+if(data){
    fileDownload(data, document.getElementById('pdf').files[0].name);
-
+}
+else {
+  alert('There is no file to show . Please Upload a file ! ')
+}
   }    
+  onSho(file){
+    const data = new FormData();
+    
+    data.append('file', document.getElementById('pdf').files[0]);
+ data.append('filename', 'test');
+ console.log(file);
+ fetch('http://localhost:8080/showfile', { // Your POST endpoint
+      method: 'POST',
+      body : data
+    })
+    .then(
+      response => {
+        console.log(response);
+        return response.json()
+      } // if the response is a JSON object
+    ).then(
+      success => console.log(success) // Handle the success response object
+    ).catch(
+      error => null // Handle the error response object
+    ) }
   render() {
     return ( <div style={body} >
     <br/>
@@ -82,6 +106,7 @@ class AccueilPage extends React.Component {
             <br/>
             
             <button className="But" onClick={this.onShow}><span > Visualiser PDF </span></button>
+            <button className="But" onClick={this.onSho}><span > convert image </span></button>
             <br/>
             <br/>
             <br/>
